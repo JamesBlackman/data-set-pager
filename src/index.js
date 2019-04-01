@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import DataSetPagerRow from "./data-set-pager-row";
 class DataSetPager extends Component {
   constructor(props) {
     super(props);
@@ -125,7 +126,7 @@ class DataSetPager extends Component {
   }
   render() {
     // const throttleSearch = _.debounce(this.startSearch(), 300);
-    const ItemComponent = this.props.component;
+    const ItemComponent = this.props.component || DataSetPagerRow;
     const searchResults = this.state.searchResults.map((rowData, index) => (
       <ItemComponent
         key={rowData[this.props.uniqueKey]}
