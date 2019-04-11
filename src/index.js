@@ -9,7 +9,7 @@ class DataSetPager extends Component {
       skip: 0,
       searchTerm: "",
       searchTotal: 0,
-      pageSize: 10,
+      pageSize: this.props.pageSize || 10,
       selectedRow: 0,
       serviceDown: false
     };
@@ -152,7 +152,6 @@ class DataSetPager extends Component {
           {this.state.serviceDown && (
             <h3 style={{ color: "red" }}>Service is down</h3>
           )}
-
           <div>
             <a
               onClick={this.prevPage}
@@ -189,20 +188,24 @@ class DataSetPager extends Component {
               . Found {this.state.searchTotal} {this.props.title}.
             </h5>
           </div>
-
           {this.props.children}
-          <table
-            style={{ textAlign: "left", tableLayout: "fixed", width: "100%" }}
-          >
-            <thead>
-              <tr>
-                {this.props.columns.map(c => (
-                  <th key={c.column}>{c.display}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>{searchResults}</tbody>
-          </table>
+          {!this.props.headerless && (
+            <table
+              style={{ textAlign: "left", tableLayout: "fixed", width: "100%" }}
+            >
+              <thead>
+                <tr>
+                  {this.props.columns.map(
+                    /* Allow hidden column */
+                    c => c.display && <th key={c.column}>{c.display}</th>
+                  )}
+                </tr>
+              </thead>
+              <tbody>{searchResults}</tbody>
+            </table>
+          )}
+          {/* Allow headerless render */}
+          {this.props.headerless && searchResults}
           <div style={{ display: "none" }}>
             <a onClick={this.prevLine} href="#void" accessKey="'">
               Up
